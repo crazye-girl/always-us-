@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2b1c19" />
+  <title>always and forever us</title>
+
+  <style>
+    :root {
+      --brown-950: #201411;
+      --brown-900: #2b1c19;
+      --brown-850: #34231f;
+      --brown-800: #3b2925;
+      --brown-700: #543a34;
+      --cream: #fff8ee;
+      --cream-2: #f7ecdf;
+      --pink-100: #ffe7ee;
+      --pink-200: #ffd1df;
+      --pink-300: #f7b9ca;
+      --pink-400: #e99ab2;
+      --ink: #2a1c19;
+      --shadow: 0 22px 55px rgba(12, 7, 6, 0.42);
+      --soft-shadow: 0 10px 22px rgba(20, 10, 8, 0.28);
+      --dot-size: 26px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--cream);
+      font-family: Georgia, "Times New Roman", serif;
+      background-color: var(--brown-950);
+      background-image:
+        radial-gradient(circle, var(--cream) 0 2.4px, transparent 2.8px);
+      background-size: var(--dot-size) var(--dot-size);
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    audio {
+      font: inherit;
+    }
+
+    .site-shell {
+      width: min(1220px, calc(100% - 28px));
+      margin-inline: auto;
+      padding: 48px 0 58px;
+    }
+
+    .hero-title,
+    .hero-footer {
+      margin: 0;
+      text-align: center;
+      color: var(--pink-200);
+      text-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+      letter-spacing: -0.035em;
+      line-height: 0.95;
+    }
+
+    .hero-title {
+      margin-bottom: 38px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(3.2rem, 8vw, 7rem);
+      font-weight: 700;
+    }
+
+    .hero-footer {
+      margin-top: 42px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(3.1rem, 8vw, 7rem);
+      font-weight: 500;
+    }
+
+    .book {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 720px;
+      overflow: hidden;
+      border: 3px solid rgba(255, 248, 238, 0.72);
+      border-radius: 24px;
+      background: var(--brown-850);
+      box-shadow:
+        0 0 0 6px rgba(43, 28, 25, 0.88),
+        0 0 0 9px rgba(255, 248, 238, 0.34),
+        var(--shadow);
+    }
+
+    .book::before,
+    .book::after {
+      content: "";
+      position: absolute;
+      z-index: 8;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      pointer-events: none;
+    }
+
+    .book::before {
+      left: calc(50% - 5px);
+      box-shadow:
+        2px 0 0 rgba(255, 255, 255, 0.05),
+        5px 0 14px rgba(0, 0, 0, 0.35);
+    }
+
+    .book::after {
+      left: 50%;
+      width: 18px;
+      transform: translateX(-50%);
+      background:
+        repeating-radial-gradient(
+          ellipse at center,
+          rgba(145, 111, 101, 0.56) 0 4px,
+          transparent 5px 13px
+        );
+      opacity: 0.6;
+    }
+
+    .page {
+      position: relative;
+      min-width: 0;
+      padding: 46px;
+      background:
+        linear-gradient(rgba(56, 37, 33, 0.94), rgba(56, 37, 33, 0.94)),
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,.05), transparent 38%);
+    }
+
+    .page-left {
+      padding-right: 56px;
+    }
+
+    .page-right {
+      padding-left: 58px;
+    }
+
+    .corner-doodle {
+      position: absolute;
+      opacity: 0.22;
+      color: var(--pink-200);
+      font-size: 2rem;
+      user-select: none;
+    }
+
+    .doodle-one { right: 22px; top: 24px; transform: rotate(12deg); }
+    .doodle-two { left: 22px; bottom: 20px; transform: rotate(-10deg); }
+
+
+    .left-layout {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 34px;
+    }
+
+    .memory-wrap {
+      position: relative;
+      width: 380px;
+      margin-top: 22px;
+      margin-left: 22px;
+      transform: rotate(-1.2deg);
+    }
+
+    .memory-frame {
+      position: relative;
+      padding: 24px;
+      background: var(--pink-100);
+      border: 2px solid var(--brown-900);
+      box-shadow: var(--soft-shadow);
+      clip-path: polygon(
+        2% 4%, 8% 2%, 15% 4%, 22% 2%, 29% 4%, 36% 2%, 43% 4%,
+        50% 2%, 57% 4%, 64% 2%, 71% 4%, 78% 2%, 85% 4%, 92% 2%, 98% 4%,
+        96% 11%, 98% 18%, 96% 25%, 98% 32%, 96% 39%, 98% 46%, 96% 53%,
+        98% 60%, 96% 67%, 98% 74%, 96% 81%, 98% 88%, 96% 96%,
+        89% 98%, 82% 96%, 75% 98%, 68% 96%, 61% 98%, 54% 96%, 47% 98%,
+        40% 96%, 33% 98%, 26% 96%, 19% 98%, 12% 96%, 4% 98%,
+        2% 91%, 4% 84%, 2% 77%, 4% 70%, 2% 63%, 4% 56%, 2% 49%,
+        4% 42%, 2% 35%, 4% 28%, 2% 21%, 4% 14%
+      );
+    }
+
+    .memory-frame::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 3px dotted var(--brown-800);
+      pointer-events: none;
+    }
+
+    .photo-stage {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      border: 3px solid var(--brown-900);
+      border-radius: 5px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.7), rgba(247,185,202,.7)),
+        repeating-linear-gradient(45deg, transparent 0 14px, rgba(43,28,25,.07) 14px 28px);
+    }
+
+.photo-stage img{
+    width:130%;
+    height:140%;
+    object-fit:cover;
+    object-position:center;
+}
+
+    .image-placeholder {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      padding: 22px;
+      text-align: center;
+      color: var(--brown-700);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+    }
+
+    .clock {
+      position: absolute;
+      z-index: 4;
+      top: -34px;
+      left: -36px;
+      width: 108px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--brown-900);
+      background: var(--cream);
+      border: 3px solid var(--brown-800);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .clock::before {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      border: 2px dotted var(--brown-700);
+      border-radius: inherit;
+    }
+
+    .clock-note {
+      position: relative;
+      z-index: 2;
+      font-size: 2.6rem;
+      transform: rotate(-8deg);
+    }
+
+    .clock-mark {
+      position: absolute;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .mark-12 { top: 8px; left: 50%; transform: translateX(-50%); }
+    .mark-3 { right: 9px; top: 50%; transform: translateY(-50%); }
+    .mark-6 { bottom: 7px; left: 50%; transform: translateX(-50%); }
+    .mark-9 { left: 10px; top: 50%; transform: translateY(-50%); }
+
+    .decor-card {
+      width: min(78%, 330px);
+      aspect-ratio: 1.25 / 1;
+      margin-left: 8px;
+      overflow: hidden;
+      border: 10px solid var(--pink-100);
+      outline: 2px solid var(--brown-900);
+      transform: rotate(7deg);
+      background:
+        radial-gradient(circle, var(--brown-900) 0 9px, transparent 10px),
+        var(--pink-200);
+      background-size: 42px 42px;
+      box-shadow: var(--soft-shadow);
+    }
+
+
+    .music-panel {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .music-card {
+      width: min(100%, 430px);
+      padding: 34px 28px 30px;
+      border: 2px solid rgba(255, 248, 238, 0.28);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle, rgba(255,255,255,.58) 0 2px, transparent 2.5px),
+        var(--pink-100);
+      background-size: 22px 22px;
+      color: var(--ink);
+      box-shadow: var(--soft-shadow);
+    }
+
+    .song-title {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.65rem);
+      line-height: 1.05;
+      font-weight: 800;
+    }
+
+    .artist-name {
+      margin: 8px 0 27px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.25rem;
+      color: var(--brown-700);
+    }
+
+    .vinyl-wrap {
+      position: relative;
+      width: min(70vw, 255px);
+      margin: 0 auto 28px;
+    }
+
+    .vinyl {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        repeating-radial-gradient(
+          circle,
+          #090909 0 7px,
+          #171717 8px 11px,
+          #0b0b0b 12px 17px
+        );
+      box-shadow:
+        inset 0 0 0 2px rgba(255,255,255,.05),
+        inset 0 0 28px rgba(255,255,255,.07),
+        0 16px 24px rgba(20, 10, 8, .32);
+      transform: rotate(0deg);
+      will-change: transform;
+    }
+
+    .vinyl::before {
+      content: "";
+      position: absolute;
+      inset: 30%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, #080808 0 15%, var(--cream) 16% 31%, var(--pink-200) 32% 100%);
+      box-shadow: 0 0 0 3px rgba(255,255,255,.22);
+    }
+
+    .vinyl::after {
+      content: "♡";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--brown-900);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+
+    .vinyl.is-spinning {
+      animation: vinylSpin 2.9s linear infinite;
+    }
+
+    @keyframes vinylSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .track-pill {
+      display: inline-block;
+      max-width: 100%;
+      margin: 0 0 18px;
+      padding: 10px 18px;
+      overflow: hidden;
+      border-radius: 999px;
+      color: var(--cream);
+      background: var(--brown-950);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.94rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .custom-player {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: inset 0 0 0 1px rgba(43, 28, 25, .08);
+    }
+
+    .play-button {
+      width: 42px;
+      aspect-ratio: 1;
+      border: 0;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--cream);
+      background: var(--brown-900);
+      cursor: pointer;
+      transition: transform .18s ease, background .18s ease;
+    }
+
+    .play-button:hover {
+      transform: scale(1.06);
+      background: var(--brown-700);
+    }
+
+    .play-button:focus-visible,
+    .progress:focus-visible,
+    .volume:focus-visible {
+      outline: 3px solid var(--pink-400);
+      outline-offset: 3px;
+    }
+
+    .play-icon {
+      width: 0;
+      height: 0;
+      margin-left: 3px;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 11px solid currentColor;
+    }
+
+    .pause-icon {
+      display: none;
+      gap: 4px;
+    }
+
+    .pause-icon span {
+      width: 4px;
+      height: 14px;
+      border-radius: 2px;
+      background: currentColor;
+    }
+
+    .play-button.playing .play-icon { display: none; }
+    .play-button.playing .pause-icon { display: flex; }
+
+    .timeline {
+      min-width: 0;
+    }
+
+    .progress {
+      width: 100%;
+      accent-color: var(--brown-900);
+      cursor: pointer;
+    }
+
+    .time-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.72rem;
+      color: var(--brown-700);
+    }
+
+    .volume-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .volume-icon {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.2rem;
+    }
+
+    .volume {
+      width: 68px;
+      accent-color: var(--brown-900);
+      cursor: pointer;
+    }
+
+    .native-audio {
+      display: none;
+    }
+
+    .speech {
+      margin: 34px 0 0;
+      color: var(--pink-200);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(2rem, 4.2vw, 4rem);
+      font-weight: 700;
+      line-height: 1.12;
+    }
+
+    .hint {
+      max-width: 430px;
+      margin: 15px auto 0;
+      color: rgba(255, 248, 238, 0.72);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.83rem;
+    }
+
+    @media (max-width: 900px) {
+      .site-shell {
+        width: min(720px, calc(100% - 20px));
+        padding-top: 32px;
+      }
+
+      .book {
+        grid-template-columns: 1fr;
+        border-radius: 20px;
+      }
+
+      .book::before,
+      .book::after {
+        display: none;
+      }
+
+      .page {
+        min-height: 680px;
+        padding: 38px 28px;
+      }
+
+      .page-left {
+        border-bottom: 4px dashed rgba(255,255,255,.16);
+        padding-right: 28px;
+      }
+
+      .page-right {
+        padding-left: 28px;
+      }
+
+      .left-layout {
+        align-items: center;
+      }
+
+      .memory-wrap,
+      .decor-card {
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 520px) {
+      :root {
+        --dot-size: 22px;
+      }
+
+      .hero-title {
+        margin-bottom: 26px;
+      }
+
+      .hero-footer {
+        margin-top: 30px;
+      }
+
+      .page {
+        min-height: auto;
+        padding: 52px 18px;
+      }
+
+      .memory-wrap {
+        width: calc(100% - 14px);
+        margin-left: 14px;
+      }
+
+      .memory-frame {
+        padding: 18px;
+      }
+
+      .clock {
+        top: -40px;
+        left: -20px;
+        width: 88px;
+      }
+
+      .clock-note {
+        font-size: 2rem;
+      }
+
+      .decor-card {
+        width: 82%;
+      }
+
+      .music-card {
+        padding: 28px 16px 22px;
+      }
+
+      .custom-player {
+        grid-template-columns: 44px 1fr;
+        border-radius: 22px;
+      }
+
+      .volume-wrap {
+        grid-column: 1 / -1;
+        justify-content: center;
+      }
+
+      .volume {
+        width: 55%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+      }
+
+      .vinyl.is-spinning {
+        animation-duration: 8s;
+      }
+    }
+    .clock-image{
+    position:absolute;
+    top:-34px;
+    left:-36px;
+    width:100px;
+    height:100px;
+    z-index:5;
+}
+
+.clock-image img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:contain;
+    border-radius:50%;
+    box-shadow:0 8px 18px rgba(0,0,0,.25);
+}
+.memory-speech{
+    margin-top:18px;
+    width:88%;
+    color:#f7c7d7;
+    font-weight: 700;
+    font-size: 30px;
+    line-height:1.45;
+    text-align:center;
+    font-family:Arial, Helvetica, sans-serif;
+}
+  </style>
+</head>
+
+<body>
+  <main class="site-shell">
+    <h1 class="hero-title">since 2019</h1>
+
+    <section class="book" aria-label="Two-page scrapbook">
+      <article class="page page-left">
+        <span class="corner-doodle doodle-one" aria-hidden="true">♡ ♡</span>
+        <span class="corner-doodle doodle-two" aria-hidden="true">✦</span>
+
+        <div class="left-layout">
+          <div class="memory-wrap">
+           <div class="clock-image">
+    <img src="picys/music-clock.png" alt="Music Clock">
+</div>
+
+
+            <div class="memory-frame">
+              <div class="photo-stage">
+                <img
+                  src="picys/picy 5.jpg"
+                  alt="A special memory"
+                  onerror="this.style.display='none'; this.nextElementSibling.hidden=false;"
+                />
+                <div class="image-placeholder" hidden>
+                  <img src="picys/picy 5.jpg"
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="decor-card">
+      <img src="picys/picy 3.jpg"
+              alt="Decorative scrapbook image"
+              onerror="this.style.display='none'; this.nextElementSibling.hidden=false;"
+            />
+            <div class="image-placeholder" hidden>
+              <img src="picys/picy 3.jpg">
+            </div>
+          </div>
+          <p class="memory-speech">Together for the Longest Time<br>Through thick and thin, we shall remain. The petty fights could never define our lives;</p>
+        </div>
+      </article>
+
+      <article class="page page-right">
+        <div class="music-panel">
+          <div class="music-card">
+            <h2 class="song-title">I think I like you</h2>
+            <p class="artist-name">— by Barney Sku —</p>
+
+            <div class="vinyl-wrap">
+              <div id="vinyl" class="vinyl" aria-hidden="true"></div>
+            </div>
+
+            <p class="track-pill">I think I like you — Barney Sku</p>
+
+            <audio id="audio" class="native-audio" preload="metadata">
+              <source src="audio/ithinkilikeyou.mp3" type="audio/mpeg"/>
+              Your browser does not support HTML audio.
+            </audio>
+
+            <div class="custom-player" aria-label="Audio player">
+              <button
+                id="playButton"
+                class="play-button"
+                type="button"
+                aria-label="Play song"
+                aria-pressed="false"
+              >
+                <span class="play-icon" aria-hidden="true"></span>
+                <span class="pause-icon" aria-hidden="true">
+                  <span></span><span></span>
+                </span>
+              </button>
+
+              <div class="timeline">
+                <input
+                  id="progress"
+                  class="progress"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="0"
+                  step="0.1"
+                  aria-label="Song progress"
+                />
+                <div class="time-row">
+                  <span id="currentTime">0:00</span>
+                  <span id="duration">0:00</span>
+                </div>
+              </div>
+
+              <div class="volume-wrap">
+                <span class="volume-icon" aria-hidden="true">♪</span>
+                <input
+                  id="volume"
+                  class="volume"
+                  type="range"
+                  min="0"
+                  max="1"
+                  value="0.8"
+                  step="0.01"
+                  aria-label="Volume"
+                />
+              </div>
+            </div>
+          </div>
+
+          <p class="speech">deep down all 3 of us know the hurt we face when apart.<br>I might not find a purpose in life, but I have found you guys. and that's forever enough.</p>
+          <p class="hint">
+            The vinyl rotates in rhythm to our heartbeats and stops when when we seperate.<br>(no ai was used, only our love.)
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <p class="hero-footer">to infinity.</p>
+  </main>
+
+<script>
+const audio = document.getElementById("audio");
+const vinyl = document.getElementById("vinyl");
+const playButton = document.getElementById("playButton");
+const progress = document.getElementById("progress");
+const currentTimeText = document.getElementById("currentTime");
+const durationText = document.getElementById("duration");
+const volume = document.getElementById("volume");
+
+function formatTime(seconds) {
+    if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+}
+
+function setPlayingState(isPlaying) {
+    if (vinyl) vinyl.classList.toggle("is-spinning", isPlaying);
+    if (playButton) {
+        playButton.classList.toggle("playing", isPlaying);
+        playButton.setAttribute("aria-pressed", String(isPlaying));
+    }
+    if (isPlaying) {
+        audio.play().catch(err => console.log("Playback blocked:", err));
+    } else {
+        audio.pause();
+    }
+}
+
+if (playButton && audio) {
+    playButton.addEventListener("click", () => {
+        const isPlaying = playButton.classList.contains("playing");
+        setPlayingState(!isPlaying);
+    });
+}
+
+if (audio && progress) {
+    audio.addEventListener("loadedmetadata", () => {
+        progress.max = Math.floor(audio.duration);
+        if (durationText) durationText.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener("timeupdate", () => {
+        if (!progress.dataset.isDragging) {
+            progress.value = Math.floor(audio.currentTime);
+        }
+        if (currentTimeText) currentTimeText.textContent = formatTime(audio.currentTime);
+    });
+
+    progress.addEventListener("input", () => {
+        progress.dataset.isDragging = "true";
+        if (currentTimeText) currentTimeText.textContent = formatTime(progress.value);
+    });
+
+    progress.addEventListener("change", () => {
+        audio.currentTime = progress.value;
+        progress.removeAttribute("data-isDragging");
+    });
+}
+
+if (audio && volume) {
+    audio.volume = volume.value;
+    volume.addEventListener("input", () => {
+        audio.volume = volume.value;
+    });
+}
+</script>
+</body>
+</html>
